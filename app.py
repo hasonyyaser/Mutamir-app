@@ -1,70 +1,29 @@
 import streamlit as st
-import pandas as pd
 
-# إعدادات الصفحة
-st.set_page_config(page_title="منصة إرشاد المعتمر", layout="wide")
+st.set_page_config(page_title="دليل المعتمر", layout="centered")
 
-# القائمة الجانبية
-page = st.sidebar.selectbox("اختر الواجهة", ["لوحة تحكم الشركة", "واجهة المعتمر (تجربة)"])
+# تنسيق الأزرار كما طلبته (ألوان واضحة)
+st.markdown("""
+    <style>
+    div.stButton > button:first-child { background-color: #15803d !important; color: white !important; height: 100px; width: 100%; font-size: 22px !important; border-radius: 15px; }
+    div.stButton + div.stButton > button { background-color: #b91c1c !important; color: white !important; height: 100px; width: 100%; font-size: 22px !important; border-radius: 15px; }
+    .room-box { background-color: #ffffff; padding: 20px; border-radius: 15px; border: 2px solid #1e293b; text-align: center; margin-bottom: 20px; }
+    </style>
+""", unsafe_allow_html=True)
 
-if page == "لوحة تحكم الشركة":
-    st.title("🕋 إدارة الأفواج - المدينة المنورة")
-    col1, col2 = st.columns(2)
-    col1.metric("الأفواج النشطة", "3")
-    col2.metric("حالات التيهان", "0")
-    
-    st.subheader("📊 المتابعة الميدانية")
-    # هنا سنربط Google Sheets لاحقاً
-    data = {"الاسم": ["أحمد جاسم", "سعاد علي"], "الحالة": ["في الفندق", "في الحرم"]}
-    st.table(pd.DataFrame(data))
+st.title("🕋 مساعدك في المدينة")
 
-else:
-    # --- واجهة المعتمر بتنسيق ألوان جديد وواضح ---
-    st.markdown("<h1 style='text-align: center;'>🕋 دليل الزائر العراقي</h1>", unsafe_allow_html=True)
-    
-    # تنسيق الأزرار (ألوان واضحة ونصوص بارزة)
-    st.markdown("""
-        <style>
-        /* زر الفندق - أخضر غامق وكتابة بيضاء */
-        div.stButton > button:first-child {
-            background-color: #059669 !important;
-            color: white !important;
-            height: 120px;
-            width: 100%;
-            font-size: 28px !important;
-            font-weight: bold;
-            border-radius: 15px;
-            border: 2px solid #065f46;
-            margin-bottom: 20px;
-        }
-        /* زر الطوارئ - أحمر فاقع وكتابة بيضاء */
-        div.stButton + div.stButton > button {
-            background-color: #dc2626 !important;
-            color: white !important;
-            height: 120px;
-            width: 100%;
-            font-size: 28px !important;
-            font-weight: bold;
-            border-radius: 15px;
-            border: 2px solid #991b1b;
-        }
-        /* تحسين مظهر الصفحة */
-        .stApp {
-            background-color: #f8fafc;
-        }
-        </style>
-    """, unsafe_allow_html=True)
+# عرض رقم الغرفة (يُسحب من قاعدة البيانات بناءً على رقم هاتف المعتمر لاحقاً)
+st.markdown("""
+    <div class='room-box'>
+        <h3 style='margin:0;'>رقم غرفتك</h3>
+        <h1 style='color: #1e3a8a; margin:10px;'>302</h1>
+        <p style='color: green;'>✅ تم تأكيد حجز الفندق</p>
+    </div>
+""", unsafe_allow_html=True)
 
-    st.write("---")
-    
-    # الزر الأول (سيظهر باللون الأخضر)
-    if st.button("📍 اندلني فندقي (الخريطة)"):
-        st.info("جاري فتح الخريطة...")
-        
-    # الزر الثاني (سيظهر باللون الأحمر)
-    if st.button("⚠️ أنا تائه.. اطلب مساعدة"):
-        st.error("تم إرسال موقعك.. ابقَ في مكانك")
+if st.button("📍 موقع الفندق (الخريطة)"):
+    st.info("جاري فتح الخريطة...")
 
-    st.write("---")
-    with st.expander("📞 أرقام الطوارئ"):
-        st.write("المندوب: 05xxxxxxx")
+if st.button("⚠️ أنا تائه.. اطلب مساعدة"):
+    st.error("تم إرسال موقعك للمندوب")
